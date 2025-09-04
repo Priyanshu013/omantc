@@ -3,7 +3,7 @@ import './index.css';
 import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './i18n';
 import { useI18n } from './i18n';
-import { ArrowRightIcon } from './icons';
+import { ArrowRightIcon, HomeIcon } from './icons';
 
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop';
 
@@ -106,7 +106,7 @@ function SectionScaffold({ title, items }) {
       </div>
       
       {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>⌂</button>
+      <button className="home-btn" onClick={() => navigate('/')}><HomeIcon /></button>
     </div>
   );
 }
@@ -180,7 +180,7 @@ function Heritage() {
       </div>
       
       {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>⌂</button>
+      <button className="home-btn" onClick={() => navigate('/')}><HomeIcon /></button>
       
       {/* Modal */}
       {selectedItem && (
@@ -272,7 +272,7 @@ function Culture() {
       </div>
       
       {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>⌂</button>
+      <button className="home-btn" onClick={() => navigate('/')}><HomeIcon /></button>
       
       {/* Modal */}
       {selectedItem && (
@@ -364,7 +364,7 @@ function Dates() {
       </div>
       
       {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>⌂</button>
+      <button className="home-btn" onClick={() => navigate('/')}><HomeIcon /></button>
       
       {/* Modal */}
       {selectedItem && (
@@ -410,28 +410,28 @@ function Wellness() {
     { 
       title: 'Wadi Oases & Springs', 
       desc: 'Natural healing waters', 
-      image: 'https://images.unsplash.com/photo-1558980664-10ea3f8a2d4b?q=80&w=1200&auto=format&fit=crop',
+      image: 'https://thumbs.dreamstime.com/b/landscape-wadi-tiwi-oasis-water-springs-rocks-stone-palm-trees-sultanate-oman-202571786.jpg',
       description: "Oman's wadis and natural springs are considered sacred healing places. The mineral-rich waters and serene environments provide natural therapy for both physical and mental wellness.",
       funFact: "Some wadi springs are believed to have healing properties—locals say a dip can cure everything from stress to skin conditions!"
     },
     { 
       title: 'Spa Traditions', 
       desc: 'Modern wellness inspired by heritage', 
-      image: 'https://images.unsplash.com/photo-1556228453-efd1bff71f6b?q=80&w=1200&auto=format&fit=crop',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI__StQ0lnr-hVPoF0D0iB7nwTRfM8qdbkOg&s',
       description: "Modern Omani spas blend contemporary wellness techniques with traditional practices. Treatments often include frankincense, rose water, and other natural ingredients from Oman's rich heritage.",
       funFact: "Some luxury spas in Oman offer 'desert therapy' sessions—wellness meets adventure in the most unique way!"
     },
     { 
       title: 'Meditation & Mindfulness', 
       desc: 'Ancient practices for modern life', 
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
+      image: 'https://assets.anantara.com/image/upload/q_auto,f_auto/media/minor/anantara/images/blog/2024-blog-content/the-art-of-mindfulness-meditation-retreats-at-anantara/1.png',
       description: "Oman's peaceful landscapes and spiritual heritage make it an ideal destination for meditation and mindfulness practices. Many retreats offer traditional and modern approaches to mental wellness.",
       funFact: "The silence in Oman's deserts is so profound it's been measured as one of the quietest places on Earth—perfect for deep meditation!"
     },
     { 
       title: 'Natural Hot Springs', 
       desc: 'Thermal healing waters', 
-      image: 'https://images.unsplash.com/photo-1544551763-7ef4203b1cb9?q=80&w=1200&auto=format&fit=crop',
+      image: 'https://res.cloudinary.com/ddjuftfy2/image/upload/f_webp,c_fill,q_auto/memphis/large/54193740_AlKesfaSpring.jpg',
       description: "Oman's natural hot springs are rich in minerals and have been used for therapeutic purposes for centuries. These geothermal waters provide natural healing and relaxation experiences.",
       funFact: "Some hot springs in Oman are so hot they can cook eggs—nature's own wellness spa with built-in kitchen!"
     }
@@ -456,7 +456,7 @@ function Wellness() {
       </div>
       
       {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>⌂</button>
+      <button className="home-btn" onClick={() => navigate('/')}><HomeIcon /></button>
       
       {/* Modal */}
       {selectedItem && (
