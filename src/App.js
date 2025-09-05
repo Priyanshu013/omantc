@@ -1539,11 +1539,6 @@ function JourneyGuide({ formData }) {
                         <div className="activity-tip">
                           <strong>💡 Tip:</strong> {activity.tips}
                         </div>
-                        <ImageWithFallback 
-                          className="activity-image" 
-                          src={activity.image} 
-                          alt={activity.activity} 
-                        />
                       </div>
                     </div>
                   ))}
