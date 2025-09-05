@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/omantc/static/css/main.08a1457f.css",
+    "main.js": "/omantc/static/js/main.f26be26f.js",
+    "static/js/453.8356639a.chunk.js": "/omantc/static/js/453.8356639a.chunk.js",
+    "index.html": "/omantc/index.html",
+    "main.08a1457f.css.map": "/omantc/static/css/main.08a1457f.css.map",
+    "main.f26be26f.js.map": "/omantc/static/js/main.f26be26f.js.map",
+    "453.8356639a.chunk.js.map": "/omantc/static/js/453.8356639a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.08a1457f.css",
+    "static/js/main.f26be26f.js"
+  ]
+}
