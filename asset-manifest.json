@@ -1,15 +1,19 @@
 {
   "files": {
-    "main.css": "/omantc/static/css/main.df5fa56b.css",
-    "main.js": "/omantc/static/js/main.1d1077e9.js",
-    "static/js/453.8356639a.chunk.js": "/omantc/static/js/453.8356639a.chunk.js",
+    "main.css": "/omantc/static/css/main.0b508da3.css",
+    "main.js": "/omantc/static/js/main.0dffc58c.js",
+    "static/js/977.bbe04a96.chunk.js": "/omantc/static/js/977.bbe04a96.chunk.js",
+    "static/js/455.a5bf3a1f.chunk.js": "/omantc/static/js/455.a5bf3a1f.chunk.js",
+    "static/js/453.2b35e615.chunk.js": "/omantc/static/js/453.2b35e615.chunk.js",
     "index.html": "/omantc/index.html",
-    "main.df5fa56b.css.map": "/omantc/static/css/main.df5fa56b.css.map",
-    "main.1d1077e9.js.map": "/omantc/static/js/main.1d1077e9.js.map",
-    "453.8356639a.chunk.js.map": "/omantc/static/js/453.8356639a.chunk.js.map"
+    "main.0b508da3.css.map": "/omantc/static/css/main.0b508da3.css.map",
+    "main.0dffc58c.js.map": "/omantc/static/js/main.0dffc58c.js.map",
+    "977.bbe04a96.chunk.js.map": "/omantc/static/js/977.bbe04a96.chunk.js.map",
+    "455.a5bf3a1f.chunk.js.map": "/omantc/static/js/455.a5bf3a1f.chunk.js.map",
+    "453.2b35e615.chunk.js.map": "/omantc/static/js/453.2b35e615.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.df5fa56b.css",
-    "static/js/main.1d1077e9.js"
+    "static/css/main.0b508da3.css",
+    "static/js/main.0dffc58c.js"
   ]
 }
