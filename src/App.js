@@ -4,6 +4,9 @@ import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './i18n';
 import { useI18n } from './i18n';
 import { ArrowRightIcon, HomeIcon } from './icons';
+import QRCode from 'qrcode';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const FALLBACK_IMG = 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop';
 
@@ -45,7 +48,7 @@ function Home() {
       <LanguageSelector />
       <div className="hero">
         <h1 className="hero__title">{t('appTitle')}</h1>
-        <p className="hero__subtitle">{t('appSubtitle')}</p>
+        <p className="hero__subtitle" dangerouslySetInnerHTML={{ __html: t('appSubtitle') }}></p>
         <div className="container">
           <div className="grid">
             <div className="card home-card">
@@ -87,7 +90,6 @@ function SectionScaffold({ title, items }) {
   
   return (
     <div className={`page inner ${title === 'Heritage of Oman' ? 'heritage' : ''}`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <LanguageSelector />
       <div className="container section">
         <h1 className="section__title">{title}</h1>
         <div className="grid">
@@ -161,7 +163,6 @@ function Heritage() {
   
   return (
     <div className="page inner heritage" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <LanguageSelector />
       <div className="container section">
         <h1 className="section__title">{t('nav.heritage')}</h1>
         <div className="grid">
@@ -253,7 +254,6 @@ function Culture() {
   
   return (
     <div className="page inner culture" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <LanguageSelector />
       <div className="container section">
         <h1 className="section__title">{t('nav.culture')}</h1>
         <div className="grid">
@@ -345,7 +345,6 @@ function Dates() {
   
   return (
     <div className="page inner tradition" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <LanguageSelector />
       <div className="container section">
         <h1 className="section__title">{t('nav.dates')}</h1>
         <div className="grid">
@@ -437,7 +436,6 @@ function Wellness() {
   
   return (
     <div className="page inner wellness" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <LanguageSelector />
       <div className="container section">
         <h1 className="section__title">{t('nav.wellness')}</h1>
         <div className="grid">
@@ -480,7 +478,8 @@ function Wellness() {
 // Progress Bar Component
 function ProgressBar({ currentStep, totalSteps }) {
   const { t } = useI18n();
-  const progress = (currentStep / totalSteps) * 100;
+  // More intuitive progress: shows completion of previous steps
+  const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
   
   return (
     <div className="progress-bar">
@@ -488,9 +487,15 @@ function ProgressBar({ currentStep, totalSteps }) {
         <div className="progress-bar__fill" style={{ width: `${progress}%` }}></div>
       </div>
       <div className="progress-bar__steps">
-        <span className={`progress-step ${currentStep >= 1 ? 'active' : ''}`}>1. {t('progress.step1')}</span>
-        <span className={`progress-step ${currentStep >= 2 ? 'active' : ''}`}>2. {t('progress.step2')}</span>
-        <span className={`progress-step ${currentStep >= 3 ? 'active' : ''}`}>3. {t('progress.step3')}</span>
+        <span className={`progress-step ${currentStep > 1 ? 'completed' : currentStep === 1 ? 'active' : ''}`}>
+          1. {t('progress.step1')}
+        </span>
+        <span className={`progress-step ${currentStep > 2 ? 'completed' : currentStep === 2 ? 'active' : ''}`}>
+          2. {t('progress.step2')}
+        </span>
+        <span className={`progress-step ${currentStep > 3 ? 'completed' : currentStep === 3 ? 'active' : ''}`}>
+          3. {t('progress.step3')}
+        </span>
       </div>
     </div>
   );
@@ -513,6 +518,7 @@ function JourneyForm() {
   
   const [isLoading, setIsLoading] = React.useState(false);
   const [showResults, setShowResults] = React.useState(false);
+  const [toast, setToast] = React.useState(null);
   
   const placesOptions = [
     t('form.placesOptions.historicalSites'), t('form.placesOptions.touristAttractions'), t('form.placesOptions.natureLandscapes'), 
@@ -532,11 +538,11 @@ function JourneyForm() {
   ];
   
   const daysOptions = [
-    '3-4 Days (Weekend Getaway)',
-    '5-6 Days (Extended Weekend)',
-    '7-8 Days (Full Week)',
-    '10-12 Days (Comprehensive Tour)',
-    '14+ Days (Deep Exploration)'
+    t('form.daysOptions.short'),
+    t('form.daysOptions.medium'),
+    t('form.daysOptions.long'),
+    t('form.daysOptions.comprehensive'),
+    t('form.daysOptions.deep')
   ];
   
   const handleInputChange = (field, value) => {
@@ -555,23 +561,61 @@ function JourneyForm() {
     }));
   };
   
+  const showToast = (message, type = 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 5000);
+  };
+
+  const validateForm = () => {
+    const errors = [];
+    
+    if (!formData.name.trim()) {
+      errors.push(t('form.validation.nameRequired'));
+    }
+    
+    if (formData.placesToVisit.length === 0) {
+      errors.push(t('form.validation.placesRequired'));
+    }
+    
+    if (formData.traditionInterests.length !== 4) {
+      errors.push(t('form.validation.traditionRequired'));
+    }
+    
+    if (!formData.wellnessInterest) {
+      errors.push(t('form.validation.wellnessRequired'));
+    }
+    
+    if (formData.cultureInterests.length !== 3) {
+      errors.push(t('form.validation.cultureRequired'));
+    }
+    
+    if (!formData.daysToExplore) {
+      errors.push(t('form.validation.daysRequired'));
+    }
+    
+    return errors;
+  };
+
   const handleSubmit = async () => {
+    const errors = validateForm();
+    
+    if (errors.length > 0) {
+      showToast(errors.join('\n'), 'error');
+      return;
+    }
+    
     setIsLoading(true);
     
     // Simulate AI processing
     setTimeout(() => {
       setIsLoading(false);
       setShowResults(true);
+      
+      // Update URL with form data for QR code sharing
+      const formDataString = encodeURIComponent(JSON.stringify(formData));
+      const resultsURL = `#/results?data=${formDataString}`;
+      window.history.replaceState(null, '', resultsURL);
     }, 3000);
-  };
-  
-  const isFormValid = () => {
-    return formData.name.trim() && 
-           formData.placesToVisit.length > 0 && 
-           formData.traditionInterests.length === 4 && 
-           formData.wellnessInterest && 
-           formData.cultureInterests.length === 3 &&
-           formData.daysToExplore;
   };
   
   if (isLoading) {
@@ -600,13 +644,15 @@ function JourneyForm() {
   return (
     <div className="page form-page" dir={isArabic ? 'rtl' : 'ltr'}>
       <ProgressBar currentStep={1} totalSteps={3} />
-      <LanguageSelector />
       
-      {/* Back to Home Button - positioned below progress bar */}
-      <div className="back-to-home-container">
-        <button className="back-to-home-btn" onClick={() => navigate('/')}>
-          <HomeIcon />
-        </button>
+      {/* Form Header with Language Selector and Home Button */}
+      <div className="form-header">
+        <div className="back-to-home-container">
+          <button className="back-to-home-btn" onClick={() => navigate('/')}>
+            <HomeIcon />
+          </button>
+        </div>
+        <LanguageSelector />
       </div>
       
       <div className="form-container">
@@ -709,7 +755,7 @@ function JourneyForm() {
           
           {/* Days to Explore */}
           <div className="form-group">
-            <label className="form-label">How many days do you have to explore Oman?</label>
+            <label className="form-label">{t('form.daysToExplore')}</label>
             <div className="radio-group">
               {daysOptions.map((option, index) => (
                 <label key={index} className="radio-label">
@@ -728,24 +774,150 @@ function JourneyForm() {
           
           <button
             type="button"
-            className={`submit-btn ${!isFormValid() ? 'disabled' : ''}`}
+            className="submit-btn"
             onClick={handleSubmit}
-            disabled={!isFormValid()}
           >
             {t('form.askAI')}
           </button>
         </form>
       </div>
+      
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`toast toast-${toast.type}`}>
+          <div className="toast-content">
+            <span className="toast-icon">
+              {toast.type === 'error' ? '⚠️' : '✅'}
+            </span>
+            <span className="toast-message">{toast.message}</span>
+            <button className="toast-close" onClick={() => setToast(null)}>×</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 // Comprehensive Journey Guide Component
-function JourneyGuide({ formData }) {
+function JourneyGuide({ formData: propFormData }) {
   const { t, i18n } = useI18n();
   const navigate = useNavigate();
   const isArabic = i18n.language === 'ar';
   const [activeDay, setActiveDay] = React.useState(1);
+  const [showQRCode, setShowQRCode] = React.useState(false);
+  const [qrCodeDataURL, setQrCodeDataURL] = React.useState('');
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [formData, setFormData] = React.useState(propFormData);
+
+  // Extract form data from URL parameters if available
+  React.useEffect(() => {
+    // For HashRouter, we need to parse the hash part of the URL
+    const hash = window.location.hash;
+    console.log('Current hash:', hash);
+    const hashParts = hash.split('?');
+    
+    if (hashParts.length > 1) {
+      const queryString = hashParts[1];
+      const urlParams = new URLSearchParams(queryString);
+      const dataParam = urlParams.get('data');
+      
+      console.log('Data param found:', !!dataParam);
+      
+      if (dataParam && !propFormData) {
+        try {
+          const decodedData = JSON.parse(decodeURIComponent(dataParam));
+          console.log('Successfully parsed form data:', decodedData);
+          setFormData(decodedData);
+        } catch (error) {
+          console.error('Error parsing form data from URL:', error);
+          // If there's an error, redirect to home
+          navigate('/');
+        }
+      }
+    }
+  }, [propFormData, navigate]);
+
+  // If no form data is available, redirect to home
+  React.useEffect(() => {
+    if (!formData || !formData.name) {
+      // Only redirect if we're not in the middle of loading data from URL
+      if (!window.location.hash.includes('data=')) {
+        navigate('/');
+      }
+    }
+  }, [formData, navigate]);
+
+  // Check if device is mobile
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Generate QR Code
+  const generateQRCode = async () => {
+    try {
+      // Use the GitHub Pages URL with the current hash (which includes results data)
+      const githubPagesURL = 'https://Priyanshu013.github.io/omantc/';
+      const currentHash = window.location.hash; // This will be #/results?data=...
+      const fullURL = githubPagesURL + currentHash;
+      
+      console.log('Generating QR code for URL:', fullURL);
+      
+      const qrCodeURL = await QRCode.toDataURL(fullURL, {
+        width: 300,
+        margin: 2,
+        color: {
+          dark: '#8b4513',
+          light: '#FFFFFF'
+        }
+      });
+      setQrCodeDataURL(qrCodeURL);
+      setShowQRCode(true);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
+
+  // Download as PDF
+  const downloadPDF = async () => {
+    try {
+      const element = document.getElementById('journey-content');
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      
+      let position = 0;
+      
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      
+      pdf.save(`Oman-Journey-Guide-${formData.name || 'Your'}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
   
   // Get itinerary based on selected days
   const getItinerary = () => {
@@ -1463,9 +1635,17 @@ function JourneyGuide({ formData }) {
   return (
     <div className="page journey-guide" dir={isArabic ? 'rtl' : 'ltr'}>
       <ProgressBar currentStep={3} totalSteps={3} />
-      <LanguageSelector />
       
-      <div className="journey-container">
+      {/* Journey Header with Home Button Only */}
+      <div className="form-header">
+        <div className="back-to-home-container">
+          <button className="back-to-home-btn" onClick={() => navigate('/')}>
+            <HomeIcon />
+          </button>
+        </div>
+      </div>
+      
+      <div className="journey-container" id="journey-content">
         <div className="journey-header">
           <h1 className="journey-title">Your Complete Oman Journey Guide</h1>
           <p className="journey-subtitle">Hello {formData.name}! Here's your personalized {formData.daysToExplore.toLowerCase()} exploration of Oman</p>
@@ -1614,20 +1794,43 @@ function JourneyGuide({ formData }) {
           <h2>Ready to Explore Oman?</h2>
           <p>This journey will take you through the heart of Omani culture, heritage, and natural beauty. Each day is carefully planned to give you the most authentic and memorable experience.</p>
           <div className="cta-buttons">
-            <button className="cta-btn primary" onClick={() => window.print()}>
-              📄 Print This Guide
-            </button>
+            {isMobile ? (
+              <button className="cta-btn secondary" onClick={downloadPDF}>
+                Download as PDF
+              </button>
+            ) : (
+              <button className="cta-btn secondary" onClick={generateQRCode}>
+                Generate QR Code
+              </button>
+            )}
             <button className="cta-btn secondary" onClick={() => navigate('/')}>
-              🏠 Back to Home
+              Back to Home
             </button>
           </div>
         </div>
       </div>
 
-      {/* Home Button */}
-      <button className="home-btn" onClick={() => navigate('/')}>
-        <HomeIcon />
-      </button>
+
+      {/* QR Code Modal */}
+      {showQRCode && (
+        <div className="qr-modal-overlay" onClick={() => setShowQRCode(false)}>
+          <div className="qr-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="qr-modal-close" onClick={() => setShowQRCode(false)}>×</button>
+            <div className="qr-modal-header">
+              <h3>Scan QR Code</h3>
+              <p>Scan this QR code with your phone to view your journey guide</p>
+            </div>
+            <div className="qr-code-container">
+              <img src={qrCodeDataURL} alt="QR Code" className="qr-code-image" />
+            </div>
+            <div className="qr-modal-footer">
+              <p className="qr-instructions">
+                📱 Open your phone's camera and point it at the QR code above
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1638,6 +1841,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/form" element={<JourneyForm />} />
+        <Route path="/results" element={<JourneyGuide />} />
         <Route path="/heritage" element={<Heritage />} />
         <Route path="/dates" element={<Dates />} />
         <Route path="/wellness" element={<Wellness />} />

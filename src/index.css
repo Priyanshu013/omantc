@@ -2,12 +2,55 @@
 :root{--text:#0e0e0e;--sand:#f4f7fb;--gold:#e9c15d;--gold-strong:#d8a928;--card:#ffffff;--ink:#2a2a2a;--muted:#6f6f6f;--accent:#1f8b7a;--sky:#eaf4ff}
 *{box-sizing:border-box}
 html,body,#root{height:100%}
-body{margin:0;font-family:Montserrat, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";background:linear-gradient(180deg,var(--sky),var(--sand));color:var(--ink)}
+body{margin:0;font-family:Montserrat, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";background:linear-gradient(180deg,var(--sky),var(--sand));color:var(--ink);-webkit-overflow-scrolling:touch;overflow-x:hidden}
+
+/* Mobile viewport and scrolling optimizations */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Prevent horizontal scroll on all pages */
+.page {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-specific scrolling improvements */
+@media (max-width: 768px) {
+  html, body {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+  }
+  
+  .page {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    padding: 0 16px;
+  }
+  
+  .container {
+    overflow-x: hidden;
+    padding: 0 8px;
+  }
+  
+  /* Smooth scrolling for mobile */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
 .page{position:relative;min-height:100vh}
 .page:before{content:"";position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1688385589154-d18b90548997?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');background-size:cover;background-position:center 30%;background-attachment:fixed;z-index:-2}
 .page:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.6));z-index:-1}
-.page.home:before{background-image:url('https://images.unsplash.com/photo-1688385589154-d18b90548997?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');filter:blur(15px);background-size:cover;background-position:center 30%;background-attachment:fixed}
-.page.home:after{background:rgba(0,0,0,0.5);backdrop-filter:blur(2px)}
+.page.home:before{background-image:url('https://images.unsplash.com/photo-1688385589154-d18b90548997?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');filter:blur(5px);background-size:cover;background-position:center 30%;background-attachment:fixed}
+.page.home:after{background:rgba(0,0,0,0.3);backdrop-filter:blur(1px)}
 .page.inner:before{background:linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);background-size:cover;background-position:center 30%;background-attachment:fixed}
 .page.inner:after{background:rgba(255,255,255,0.1);backdrop-filter:blur(1px)}
 code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace}
@@ -23,9 +66,30 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .page.heritage .grid,
 .page.tradition .grid,
 .page.wellness .grid,
-.page.culture .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;transform:scale(0.75);transform-origin:center}
-@media (max-width:1200px){.container{max-width:1000px;padding:12px}}@media (max-width:900px){.grid{grid-template-columns:1fr}.page.inner .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.container{padding:8px}}
-@media (max-width:600px){.page.inner .grid{grid-template-columns:1fr}.container{padding:4px}.lang-selector{top:16px;right:16px}.lang-btn{padding:6px 10px;font-size:10px}}@media (min-width:1400px){.page.home .hero{max-width:1200px}.page.home .grid{max-width:1200px}.container{max-width:1400px}}@media (max-width:400px){.page.home .hero__title{font-size:28px}.page.home .hero__subtitle{font-size:14px}.next-btn{margin:40px auto 15px;font-size:11px;padding:6px 12px}.page.home .card__body{padding:12px 16px}.page.home .card__title{font-size:14px;padding:4px 8px}.page.home .card__desc{font-size:12px}}
+.page.culture .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:1200px){.container{max-width:1000px;padding:12px}}@media (max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .page.inner .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .page.heritage .grid,
+  .page.tradition .grid,
+  .page.wellness .grid,
+  .page.culture .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .container{padding:12px}
+  .section{padding:110px 0 30px 0}
+  .section__title{font-size:32px}
+}
+@media (max-width:600px){
+  .page.inner .grid{grid-template-columns:1fr}
+  .page.heritage .grid,
+  .page.tradition .grid,
+  .page.wellness .grid,
+  .page.culture .grid{grid-template-columns:1fr;gap:16px}
+  .container{padding:8px}
+  .lang-selector{top:16px;right:16px}
+  .lang-btn{padding:6px 10px;font-size:10px}
+  .section{padding:100px 0 20px 0}
+  .section__title{font-size:28px;margin:0 0 16px}
+}@media (min-width:1400px){.page.home .hero{max-width:1200px}.page.home .grid{max-width:1200px}.container{max-width:1400px}}@media (max-width:400px){.page.home .hero__title{font-size:28px}.page.home .hero__subtitle{font-size:14px}.next-btn{position:fixed;bottom:16px;left:16px;right:16px;margin:0;font-size:9px;padding:6px 14px;z-index:1000}.page.home{padding-bottom:70px}.page.home .card__body{padding:12px 16px}.page.home .card__title{font-size:14px;padding:6px 8px}.page.home .card__desc{font-size:12px}.page.home .lang-selector{position:absolute;top:16px;right:16px}}
 
 /* Enhanced Responsive Design for Mac and Windows Laptops */
 
@@ -91,61 +155,123 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   .page.home .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
   .page.home .hero__title{font-size:32px}
   .page.home .hero__subtitle{font-size:16px}
-  .next-btn{margin:50px auto 18px;font-size:12px;padding:8px 14px}
+  .next-btn{position:fixed;bottom:28px;left:28px;right:28px;margin:0;font-size:11px;padding:9px 18px;z-index:1000}
+  .page.home{padding-bottom:100px}
 }
 
 /* Tablet Portrait (600px - 768px) */
 @media (min-width:600px) and (max-width:767px){
   .page.inner .grid{grid-template-columns:1fr}
   .container{padding:8px}
-  .page.home .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .page.home .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:0 12px}
   .page.home .hero__title{font-size:30px}
   .page.home .hero__subtitle{font-size:15px}
-  .next-btn{margin:45px auto 16px;font-size:11px;padding:7px 12px}
-  .page.home .card__body{padding:50px 18px 16px 18px}
-  .page.home .card__title{font-size:19px;padding:10px 10px}
-  .page.home .card__desc{font-size:9px}
+  .next-btn{position:fixed;bottom:24px;left:24px;right:24px;margin:0;font-size:10px;padding:8px 16px;z-index:1000}
+  .page.home{padding-bottom:90px}
+  .page.home .card{min-height:30px;aspect-ratio:2.4;margin:0 4px}
+  .page.home .card__body{padding:8px 20px 4px 20px}
+  .page.home .card__title{font-size:26px;padding:8px 4px}
+  .page.home .card__desc{font-size:18px}
 }
 
 /* Mobile Large (480px - 600px) */
 @media (min-width:480px) and (max-width:599px){
   .container{padding:6px}
   .lang-selector{top:18px;right:18px}
+  .page.home .lang-selector{position:absolute;top:18px;right:18px}
   .lang-btn{padding:7px 11px;font-size:11px}
-  .page.home .grid{grid-template-columns:1fr;gap:12px}
+  .page.home .grid{grid-template-columns:repeat(2,1fr);gap:12px;padding:0 8px}
   .page.home .hero__title{font-size:28px}
   .page.home .hero__subtitle{font-size:14px}
-  .next-btn{margin:40px auto 15px;font-size:11px;padding:6px 12px}
-  .page.home .card__body{padding:45px 16px 14px 16px}
-  .page.home .card__title{font-size:18px;padding:8px 8px}
-  .page.home .card__desc{font-size:8px}
+  .next-btn{position:fixed;bottom:20px;left:20px;right:20px;margin:0;font-size:10px;padding:8px 16px;z-index:1000}
+  .page.home{padding-bottom:80px}
+  .page.home .card{min-height:28px;aspect-ratio:2.4;margin:0 3px}
+  .page.home .card__body{padding:6px 16px 3px 16px}
+  .page.home .card__title{font-size:24px;padding:6px 3px}
+  .page.home .card__desc{font-size:17px}
+  
+  /* Mobile scrolling fix - only for large mobile screens */
+  .page.home{height:auto;min-height:100vh;overflow-y:auto;padding:20px 0}
+  
+  /* Enhanced mobile card responsiveness */
+  .page.inner .grid{grid-template-columns:1fr;gap:16px}
+  .page.heritage .grid,
+  .page.tradition .grid,
+  .page.wellness .grid,
+  .page.culture .grid{grid-template-columns:1fr;gap:16px}
+  
+  /* Better mobile card sizing */
+  .card{min-height:200px;aspect-ratio:1.2}
+  .card__overlay{padding:12px}
+  .card__title{font-size:16px}
+  .card__btn{padding:6px 12px;font-size:12px}
 }
 
 /* Mobile Medium (400px - 480px) */
 @media (min-width:400px) and (max-width:479px){
   .container{padding:4px}
   .lang-selector{top:16px;right:16px}
+  .page.home .lang-selector{position:absolute;top:16px;right:16px}
   .lang-btn{padding:6px 10px;font-size:10px}
   .page.home .hero__title{font-size:26px}
   .page.home .hero__subtitle{font-size:13px}
-  .next-btn{margin:35px auto 12px;font-size:10px;padding:5px 10px}
-  .page.home .card__body{padding:40px 14px 12px 14px}
-  .page.home .card__title{font-size:17px;padding:6px 6px}
-  .page.home .card__desc{font-size:7px}
+  .next-btn{position:fixed;bottom:16px;left:16px;right:16px;margin:0;font-size:9px;padding:6px 14px;z-index:1000}
+  .page.home{padding-bottom:70px}
+  .page.home .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:0 6px}
+  .page.home .card{min-height:26px;aspect-ratio:2.4;margin:0 2px}
+  .page.home .card__body{padding:5px 14px 2px 14px}
+  .page.home .card__title{font-size:22px;padding:5px 2px}
+  .page.home .card__desc{font-size:16px}
+  
+  /* Mobile scrolling fix - only for medium screens */
+  .page.home{height:auto;min-height:100vh;overflow-y:auto;padding:20px 0}
+  
+  /* Enhanced mobile card responsiveness */
+  .page.inner .grid{grid-template-columns:1fr;gap:14px}
+  .page.heritage .grid,
+  .page.tradition .grid,
+  .page.wellness .grid,
+  .page.culture .grid{grid-template-columns:1fr;gap:14px}
+  
+  /* Better mobile card sizing */
+  .card{min-height:180px;aspect-ratio:1.1}
+  .card__overlay{padding:10px}
+  .card__title{font-size:15px}
+  .card__btn{padding:5px 10px;font-size:11px}
 }
 
 /* Mobile Small (320px - 400px) */
 @media (max-width:399px){
   .container{padding:2px}
   .lang-selector{top:12px;right:12px}
+  .page.home .lang-selector{position:absolute;top:12px;right:12px}
   .lang-btn{padding:5px 8px;font-size:9px}
   .page.home .hero__title{font-size:24px}
   .page.home .hero__subtitle{font-size:12px}
-  .next-btn{margin:30px auto 10px;font-size:9px;padding:4px 8px}
-  .page.home .card__body{padding:35px 12px 10px 12px}
-  .page.home .card__title{font-size:16px;padding:5px 5px}
-  .page.home .card__desc{font-size:6px}
+  .next-btn{position:fixed;bottom:12px;left:12px;right:12px;margin:0;font-size:8px;padding:5px 12px;z-index:1000}
+  .page.home{padding-bottom:60px}
+  .page.home .grid{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 4px}
+  .page.home .card{min-height:24px;aspect-ratio:2.4;margin:0 1px}
+  .page.home .card__body{padding:4px 12px 2px 12px}
+  .page.home .card__title{font-size:20px;padding:4px 2px}
+  .page.home .card__desc{font-size:15px}
   .home-btn{width:40px;height:40px;top:16px;left:16px;font-size:16px}
+  
+  /* Mobile scrolling fix - only for small screens */
+  .page.home{height:auto;min-height:100vh;overflow-y:auto;padding:20px 0}
+  
+  /* Enhanced mobile card responsiveness */
+  .page.inner .grid{grid-template-columns:1fr;gap:12px}
+  .page.heritage .grid,
+  .page.tradition .grid,
+  .page.wellness .grid,
+  .page.culture .grid{grid-template-columns:1fr;gap:12px}
+  
+  /* Better mobile card sizing */
+  .card{min-height:160px;aspect-ratio:1}
+  .card__overlay{padding:8px}
+  .card__title{font-size:14px}
+  .card__btn{padding:4px 8px;font-size:10px}
 }
 
 /* Performance and UX Optimizations */
@@ -156,11 +282,55 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   }
 }
 
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+  
+  /* Optimize background attachments for mobile */
+  .page:before {
+    background-attachment: scroll;
+  }
+  
+  .page.home:before {
+    background-attachment: scroll;
+  }
+  
+  /* Better touch feedback */
+  .card:active {
+    transform: scale(0.98);
+  }
+  
+  .next-btn:active,
+  .submit-btn:active,
+  .cta-btn:active {
+    transform: scale(0.95);
+  }
+  
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
 /* High DPI Display Optimizations */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .page.home .card__title, .page.home .card__desc {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Better text rendering on high DPI displays */
+  body, .form-label, .form-input, .modal-text, .journey-title, .journey-subtitle {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -172,6 +342,47 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   .card:active, .next-btn:active, .home-btn:active, .lang-btn:active {
     transform: scale(0.98);
   }
+  
+  /* Ensure minimum touch target size */
+  .lang-btn, .home-btn, .back-to-home-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .next-btn, .submit-btn, .cta-btn {
+    min-height: 44px;
+    padding: 12px 20px;
+  }
+  
+  .card__btn {
+    min-height: 36px;
+    padding: 8px 16px;
+  }
+  
+  /* Enhanced form touch targets */
+  .checkbox-label, .radio-label {
+    min-height: 48px;
+    padding: 16px 20px;
+  }
+  
+  .form-input {
+    min-height: 48px;
+    padding: 16px 20px;
+  }
+  
+  .submit-btn {
+    min-height: 48px;
+    padding: 16px 32px;
+  }
+  
+  /* Better spacing for touch */
+  .form-group {
+    gap: 16px;
+  }
+  
+  .journey-form {
+    gap: 40px;
+  }
 }
 
 /* Landscape Orientation Optimizations */
@@ -180,6 +391,51 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   .page.home .hero__subtitle { font-size: 14px; }
   .next-btn { margin: 20px auto 10px; }
   .page.home .grid { margin-top: 16px; }
+  
+  /* Adjust form and journey guide for landscape */
+  .form-page, .journey-guide {
+    padding-top: 80px;
+  }
+  
+  .progress-bar {
+    padding: 12px 16px;
+  }
+  
+  .back-to-home-container {
+    top: 80px;
+  }
+  
+  .form-page .lang-selector {
+    top: 80px;
+  }
+  
+  /* Landscape mobile optimizations */
+  .page.home {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .page.home .hero {
+    padding: 20px 16px;
+  }
+  
+  .page.home .grid {
+    margin-top: 20px;
+  }
+  
+  /* Better landscape form layout */
+  .form-container {
+    padding: 20px 16px;
+  }
+  
+  .journey-form {
+    gap: 20px;
+  }
+  
+  .form-group {
+    gap: 12px;
+  }
 }
 .card{background:linear-gradient(135deg, rgba(245,245,220,.95) 0%, rgba(222,184,135,.95) 100%);border-radius:12px;border:3px solid rgba(139,69,19,.3);box-shadow:0 6px 16px rgba(139,69,19,.2);overflow:hidden;backdrop-filter:blur(2px);transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);aspect-ratio:1;position:relative}
 .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 40px rgba(139,69,19,.3);background:linear-gradient(135deg, rgba(245,245,220,1) 0%, rgba(222,184,135,1) 100%);border-color:rgba(139,69,19,.5)}
@@ -195,8 +451,8 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .page.home .hero{padding:40px 16px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;max-width:1000px;width:100%;gap:24px}
 .page.home .hero__title{font-size:42px;color:#fff;margin:80px 0 0 0;font-weight:900;line-height:1.2;text-shadow:0 2px 4px rgba(0,0,0,.8);letter-spacing:-0.5px;max-width:100%;animation:fadeInUp 1s ease-out 0.2s both}
 .page.home .hero__subtitle{font-size:18px;color:#fff;max-width:100%;margin:0 auto 0;line-height:1.5;text-shadow:0 2px 4px rgba(0,0,0,.8);font-weight:600;animation:fadeInUp 1s ease-out 0.4s both}
-.page.home .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:32px;max-width:1000px;width:100%;animation:fadeInUp 1s ease-out 0.6s both}
-.page.home .card{background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0;text-align:center;cursor:pointer;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);backdrop-filter:blur(20px);transform:translateY(0) scale(1);min-height:160px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.page.home .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:32px;max-width:1200px;width:100%;animation:fadeInUp 1s ease-out 0.6s both}
+.page.home .card{background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0;text-align:center;cursor:pointer;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);backdrop-filter:blur(8px);transform:translateY(0) scale(1);min-height:160px;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .page.home .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 12px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);background:rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.2)}
 
 /* Home cards - view only (no click functionality) */
@@ -217,13 +473,13 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 }
 .page.home .card__img{display:none}
 .page.home .card__body{padding:60px 24px 20px 24px;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;height:100%;gap:12px}
-.page.home .card__title{font-size:26px;color:#fff;text-align:center;margin:0;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.8);background:rgba(0,0,0,0.3);padding:12px 16px;border-radius:0;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);position:absolute;top:0;left:0;right:0;z-index:1;flex-shrink:0}
+.page.home .card__title{font-size:26px;color:#fff;text-align:center;margin:0;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.8);background:rgba(0,0,0,0.3);padding:18px 16px;border-radius:0;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.1);position:absolute;top:0;left:0;right:0;z-index:1;flex-shrink:0}
 .page.home .card__desc{font-size:12px;color:#fff;text-align:center;margin:0;line-height:1.4;opacity:0.9;flex:1;display:flex;align-items:center;justify-content:center}
 .page.home .card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 100%);border-radius:12px;pointer-events:none}
 .page.home .card__arrow{position:absolute;bottom:12px;right:12px;color:rgba(255,255,255,0.8);transition:all 0.3s ease;z-index:2}
 .page.home .card:hover .card__arrow{color:rgba(255,255,255,1);transform:scale(1.1)}
 @media (max-width:1200px){.page.home .hero{max-width:900px}.page.home .grid{max-width:900px}}@media (max-width:900px){.page.home .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.next-btn{margin:80px auto 30px;font-size:13px;padding:10px 20px}}
-@media (max-width:600px){.page.home .grid{grid-template-columns:1fr;gap:12px}.page.home .hero__title{font-size:32px}.page.home .hero__subtitle{font-size:16px}.next-btn{margin:60px auto 20px;font-size:12px;padding:8px 16px}.page.home .card__title{font-size:20px;padding:10px 12px}.page.home .card__desc{font-size:10px}.page.home .card__body{padding:50px 20px 16px 20px}}
+@media (max-width:600px){.page.home .grid{grid-template-columns:1fr;gap:12px;padding:0 8px}.page.home .hero__title{font-size:32px}.page.home .hero__subtitle{font-size:16px}.next-btn{margin:60px auto 20px;font-size:12px;padding:8px 16px}.page.home .card{min-height:80px;aspect-ratio:2.4;margin:0 4px}.page.home .card__title{font-size:20px;padding:14px 12px}.page.home .card__desc{font-size:10px}.page.home .card__body{padding:50px 20px 16px 20px}}
 .toolbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 12px 30px rgba(0,0,0,.1);padding:8px 12px;border-radius:12px;display:flex;gap:10px;align-items:center;z-index:50}
 .btn{appearance:none;border:0;background:#f5f5f5;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
 .btn--primary{background:var(--gold)}
@@ -237,9 +493,54 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .page.home .container.nav{background:transparent !important;position:relative;z-index:10}
 /* Language selector */
 .lang-selector{position:fixed;top:24px;right:24px;display:flex;gap:8px;z-index:50}
-.lang-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.7);border-radius:12px;padding:8px 12px;font-weight:600;cursor:pointer;color:#fff;backdrop-filter:blur(2px);transition:all 0.3s ease;font-size:12px}
+.lang-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.7);border-radius:12px;padding:8px 12px;font-weight:600;cursor:pointer;color:#fff;backdrop-filter:blur(2px);transition:all 0.3s ease;font-size:12px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
 .lang-btn:hover{background:rgba(0,0,0,.9);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .lang-btn.active{background:rgba(139,69,19,.9);border-color:rgba(255,255,255,.6);color:#fff;box-shadow:0 2px 8px rgba(139,69,19,.4)}
+
+/* Mobile language selector optimizations */
+@media (max-width: 768px) {
+  .lang-selector {
+    top: 20px;
+    right: 20px;
+    gap: 6px;
+  }
+  
+  /* Make language selector scroll with content on home page for mobile */
+  .page.home .lang-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .lang-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lang-selector {
+    top: 16px;
+    right: 16px;
+    gap: 4px;
+  }
+  
+  /* Make language selector scroll with content on home page for mobile */
+  .page.home .lang-selector {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+  
+  .lang-btn {
+    padding: 5px 8px;
+    font-size: 10px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+}
 /* Next button */
 .next-btn{position:relative;background:#fff;color:#000;border:2px solid rgba(0,0,0,0.1);border-radius:12px;padding:12px 24px;font-weight:700;cursor:pointer;z-index:50;box-shadow:0 6px 16px rgba(0,0,0,.2);margin:100px auto 40px;display:block;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);animation:fadeInUp 1s ease-out 0.8s both;font-size:14px;letter-spacing:0.3px;text-transform:uppercase;backdrop-filter:blur(10px)}
 .next-btn:hover{background:#f8f9fa;color:#000;border-color:rgba(0,0,0,0.2);transform:translateY(-3px) scale(1.08);box-shadow:0 10px 24px rgba(0,0,0,.3)}
@@ -263,23 +564,196 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .back-btn:hover{background:rgba(139,69,19,1);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.4)}
 
 /* Home Button */
-.home-btn{position:fixed;top:24px;left:24px;background:transparent;color:#000;border:2px solid #000;border-radius:50%;padding:0;font-size:20px;font-weight:600;cursor:pointer;transition:all 0.3s ease;backdrop-filter:blur(2px);box-shadow:0 4px 12px rgba(0,0,0,.3);width:50px;height:50px;text-align:center;display:flex;align-items:center;justify-content:center;z-index:100}
+.home-btn{position:fixed;top:24px;left:24px;background:transparent;color:#000;border:2px solid #000;border-radius:50%;padding:0;font-size:20px;font-weight:600;cursor:pointer;transition:all 0.3s ease;backdrop-filter:blur(2px);box-shadow:0 4px 12px rgba(0,0,0,.3);width:50px;height:50px;text-align:center;display:flex;align-items:center;justify-content:center;z-index:100;min-width:50px;min-height:50px}
 .home-btn:hover{background:rgba(0,0,0,0.1);border-color:#333;transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.4)}
 
-/* Back to Home Button Container for Form */
+/* Mobile home button optimizations */
+@media (max-width: 768px) {
+  .home-btn {
+    top: 20px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    min-width: 45px;
+    min-height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-btn {
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+/* Back to Home Button Container for Form - Desktop stays fixed */
 .back-to-home-container {
   position: fixed;
-  top: 100px;
+  top: 140px;
   left: 24px;
   z-index: 1000;
 }
 
-/* Language Selector for Form Page */
+/* Language Selector for Form Page - Desktop stays fixed */
 .form-page .lang-selector {
   position: fixed;
-  top: 100px;
+  top: 140px;
   right: 24px;
   z-index: 1000;
+}
+
+/* Override individual positioning when inside form-header */
+.form-page .form-header .back-to-home-container {
+  position: static;
+  top: auto;
+  left: auto;
+}
+
+.form-page .form-header .lang-selector {
+  position: static;
+  top: auto;
+  right: auto;
+}
+
+/* Form Header - Desktop stays fixed */
+.form-page .form-header {
+  position: fixed;
+  top: 140px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  background: transparent;
+}
+
+/* Journey Guide Header - positioned below progress bar */
+.journey-guide .form-header {
+  position: fixed;
+  top: 140px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  background: transparent;
+}
+
+/* Mobile form button positioning - make them non-fixed and above form */
+@media (max-width: 768px) {
+  /* Create a proper header container for buttons */
+  .form-page .form-header,
+  .journey-guide .form-header {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 16px 20px 16px;
+    padding: 0;
+    width: calc(100% - 32px);
+    min-height: 50px;
+    background: transparent;
+  }
+  
+  .back-to-home-container {
+    position: static;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    top: auto;
+    left: auto;
+    flex: 0 0 auto;
+    z-index: 10;
+  }
+  
+  .form-page .lang-selector {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    top: auto;
+    right: auto;
+    flex: 0 0 auto;
+    z-index: 10;
+  }
+  
+  .form-page {
+    padding-top: 0;
+  }
+  
+  /* Ensure buttons are properly sized and visible */
+  .back-to-home-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lang-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-page .form-header,
+  .journey-guide .form-header {
+    margin: 15px 16px 15px 16px;
+    padding: 0;
+  }
+  
+  .back-to-home-container {
+    margin: 0;
+  }
+  
+  .form-page .lang-selector {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-page .form-header,
+  .journey-guide .form-header {
+    margin: 12px 12px 12px 12px;
+    padding: 0;
+  }
+  
+  .back-to-home-container {
+    margin: 0;
+  }
+  
+  .form-page .lang-selector {
+    margin: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-page .form-header {
+    margin: 10px 8px 10px 8px;
+    padding: 0;
+  }
+  
+  .back-to-home-container {
+    margin: 0;
+  }
+  
+  .form-page .lang-selector {
+    margin: 0;
+  }
 }
 
 /* Back to Home Button for Form */
@@ -311,8 +785,8 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 }
 
 /* Modal Styles */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(8px);animation:modalFadeIn 0.3s ease-out}
-.modal-content{background:linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);border-radius:12px;padding:0;max-width:700px;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);animation:modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);border:2px solid rgba(139,69,19,0.1);scrollbar-width:thin;scrollbar-color:rgba(139,69,19,0.3) transparent}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(8px);animation:modalFadeIn 0.3s ease-out;padding:10px}
+.modal-content{background:linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);border-radius:12px;padding:0;max-width:700px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);animation:modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);border:2px solid rgba(139,69,19,0.1);scrollbar-width:thin;scrollbar-color:rgba(139,69,19,0.3) transparent;margin:0;width:100%}
 .modal-content::-webkit-scrollbar{width:6px}
 .modal-content::-webkit-scrollbar-track{background:transparent;border-radius:12px}
 .modal-content::-webkit-scrollbar-thumb{background:linear-gradient(135deg, rgba(139,69,19,0.4) 0%, rgba(139,69,19,0.6) 100%);border-radius:12px;transition:all 0.3s ease}
@@ -327,6 +801,113 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .modal-funfact{background:linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);margin:0 48px 40px 48px;padding:20px;border-radius:12px;border-left:4px solid #8b4513;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
 .funfact-title{font-size:18px;font-weight:700;color:#8b4513;margin:0 0 12px 0;display:flex;align-items:center;gap:8px}
 .funfact-text{font-size:16px;line-height:1.6;color:#555;margin:0;font-style:italic}
+
+/* Mobile Modal Optimizations */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 5px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+  
+  .modal-content {
+    max-width: calc(100vw - 10px);
+    max-height: calc(100vh - 40px);
+    margin: 0;
+    border-radius: 8px;
+  }
+  
+  .modal-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+  
+  .modal-image {
+    height: 200px;
+  }
+  
+  .modal-title {
+    font-size: 22px;
+    padding: 20px 24px 12px 24px;
+  }
+  
+  .modal-description {
+    padding: 0 24px 20px 24px;
+  }
+  
+  .modal-text {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  
+  .modal-funfact {
+    margin: 0 24px 30px 24px;
+    padding: 16px;
+  }
+  
+  .funfact-title {
+    font-size: 16px;
+  }
+  
+  .funfact-text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 2px;
+    padding-top: 10px;
+  }
+  
+  .modal-content {
+    max-width: calc(100vw - 4px);
+    max-height: calc(100vh - 20px);
+    border-radius: 6px;
+  }
+  
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+  
+  .modal-image {
+    height: 160px;
+  }
+  
+  .modal-title {
+    font-size: 20px;
+    padding: 16px 20px 10px 20px;
+  }
+  
+  .modal-description {
+    padding: 0 20px 16px 20px;
+  }
+  
+  .modal-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .modal-funfact {
+    margin: 0 20px 24px 20px;
+    padding: 12px;
+  }
+  
+  .funfact-title {
+    font-size: 15px;
+  }
+  
+  .funfact-text {
+    font-size: 13px;
+  }
+}
 
 @keyframes modalFadeIn{
   from{opacity:0}
@@ -350,50 +931,112 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
+  backdrop-filter: blur(20px);
   z-index: 1000;
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px 24px;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar__container {
   width: 100%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  height: 8px;
+  background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, rgba(216, 169, 40, 0.1) 100%);
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar__fill {
   height: 100%;
-  background: linear-gradient(90deg, #8b4513 0%, #d8a928 100%);
-  border-radius: 3px;
-  transition: width 0.5s ease;
+  background: linear-gradient(90deg, #8b4513 0%, #d8a928 50%, #f4d03f 100%);
+  border-radius: 10px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
+}
+
+.progress-bar__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
 }
 
 .progress-bar__steps {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: #666;
+  position: relative;
 }
 
 .progress-step {
-  transition: color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  text-align: center;
+  min-width: 80px;
 }
 
 .progress-step.active {
   color: #8b4513;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(216, 169, 40, 0.1) 100%);
+  border-color: rgba(139, 69, 19, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+}
+
+.progress-step.completed {
+  color: #d8a928;
+  background: linear-gradient(135deg, rgba(216, 169, 40, 0.2) 0%, rgba(244, 208, 63, 0.2) 100%);
+  border-color: rgba(216, 169, 40, 0.4);
+}
+
+.progress-step.completed::before {
+  content: '✓';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d8a928;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(216, 169, 40, 0.4);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Form Page Styles */
 .form-page {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   min-height: 100vh;
-  padding-top: 80px;
+  padding-top: 120px;
 }
 
 .form-page:before {
@@ -407,20 +1050,27 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .form-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px 24px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  padding: 50px 32px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .form-title {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 900;
   color: #2c3e50;
   text-align: center;
-  margin: 0 0 40px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 0 50px 0;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .journey-form {
@@ -436,25 +1086,32 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 }
 
 .form-label {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   color: #2c3e50;
-  margin: 0;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .form-input {
-  padding: 16px 20px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  font-size: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease;
+  padding: 18px 24px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #2c3e50;
 }
 
 .form-input:focus {
   outline: none;
   border-color: #8b4513;
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.15), 0 4px 16px rgba(139, 69, 19, 0.1);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 1);
 }
 
 .checkbox-group, .radio-group {
@@ -467,20 +1124,22 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .checkbox-label, .radio-label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .checkbox-label:hover, .radio-label:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-color: #8b4513;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.15);
 }
 
 .checkbox-label input[type="checkbox"], .radio-label input[type="radio"] {
@@ -496,42 +1155,120 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 
 .checkbox-text, .radio-text {
   flex: 1;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
   color: #2c3e50;
+  letter-spacing: -0.2px;
+  line-height: 1.4;
 }
 
 .form-hint {
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
-  margin: 8px 0 0 0;
+  margin: 12px 0 0 0;
   font-style: italic;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #8b4513 0%, #d8a928 100%);
+  background: linear-gradient(135deg, #8b4513 0%, #d8a928 50%, #f4d03f 100%);
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 16px 32px;
-  font-size: 18px;
-  font-weight: 700;
+  border-radius: 16px;
+  padding: 20px 40px;
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 30px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.3);
-}
-
-.submit-btn:hover:not(.disabled) {
-  transform: translateY(-3px);
+  letter-spacing: 0.8px;
   box-shadow: 0 12px 32px rgba(139, 69, 19, 0.4);
+  position: relative;
+  overflow: hidden;
 }
 
-.submit-btn.disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  box-shadow: none;
+.submit-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(139, 69, 19, 0.5);
+  background: linear-gradient(135deg, #9d5a1a 0%, #e6b835 50%, #f7d94a 100%);
+}
+
+/* Toast Notification Styles */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: white;
+}
+
+.toast-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Loading Animation Styles */
@@ -733,7 +1470,7 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 @media (min-width: 768px) and (max-width: 899px) {
   .form-container, .results-container {
     margin: 20px;
-    padding: 30px 20px;
+    padding: 50px 20px 30px 20px;
   }
   
   .form-title, .results-title {
@@ -765,7 +1502,7 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 @media (min-width: 600px) and (max-width: 767px) {
   .form-container, .results-container {
     margin: 16px;
-    padding: 28px 18px;
+    padding: 45px 18px 28px 18px;
   }
   
   .form-title, .results-title {
@@ -805,12 +1542,12 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 /* Mobile Large (480px - 600px) */
 @media (min-width: 480px) and (max-width: 599px) {
   .form-page {
-    padding-top: 90px;
+    padding-top: 0;
   }
   
   .form-container, .results-container {
-    margin: 12px;
-    padding: 24px 16px;
+    margin: 12px 8px;
+    padding: 40px 16px 24px 16px;
   }
   
   .form-title, .results-title {
@@ -855,12 +1592,12 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 /* Mobile Medium (400px - 480px) */
 @media (min-width: 400px) and (max-width: 479px) {
   .form-page {
-    padding-top: 100px;
+    padding-top: 0;
   }
   
   .form-container, .results-container {
-    margin: 10px;
-    padding: 20px 14px;
+    margin: 10px 6px;
+    padding: 35px 14px 20px 14px;
   }
   
   .form-title, .results-title {
@@ -910,16 +1647,17 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 /* Mobile Small (320px - 400px) */
 @media (max-width: 399px) {
   .form-page {
-    padding-top: 110px;
+    padding-top: 0;
   }
   
   .form-container, .results-container {
-    margin: 8px;
-    padding: 18px 12px;
+    margin: 8px 4px;
+    padding: 30px 16px 20px 16px;
   }
   
   .form-title, .results-title {
-    font-size: 18px;
+    font-size: 24px;
+    margin-bottom: 30px;
   }
   
   .checkbox-group, .radio-group {
@@ -927,16 +1665,39 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   }
   
   .progress-bar {
-    padding: 6px 10px;
+    padding: 12px 16px;
   }
   
   .progress-bar__steps {
-    font-size: 7px;
+    font-size: 10px;
+    gap: 4px;
+  }
+  
+  .progress-step {
+    padding: 6px 8px;
+    min-width: 60px;
+    font-size: 9px;
+  }
+  
+  .progress-step.completed::before {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    top: -6px;
+    right: -6px;
+  }
+  
+  .back-to-home-container {
+    top: 120px;
+    left: 12px;
+  }
+  
+  .form-page .lang-selector {
+    top: 120px;
+    right: 12px;
   }
   
   .back-to-home-btn {
-    top: 12px;
-    left: 12px;
     width: 36px;
     height: 36px;
     font-size: 13px;
@@ -949,31 +1710,132 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   .form-input {
     padding: 8px 12px;
     font-size: 12px;
+    min-height: 44px;
   }
   
   .submit-btn {
     font-size: 14px;
     padding: 10px 20px;
+    min-height: 44px;
   }
   
   .checkbox-label, .radio-label {
     padding: 8px 10px;
     font-size: 12px;
+    min-height: 44px;
   }
   
   .form-hint {
     font-size: 10px;
+  }
+  
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .toast-content {
+    padding: 12px 16px;
+  }
+  
+  .toast-message {
+    font-size: 13px;
+    white-space: pre-line;
+  }
+  
+  .qr-modal-content {
+    width: 95%;
+    max-width: none;
+  }
+  
+  .qr-modal-header {
+    padding: 30px 20px 15px 20px;
+  }
+  
+  .qr-modal-header h3 {
+    font-size: 24px;
+  }
+  
+  .qr-modal-header p {
+    font-size: 14px;
+  }
+  
+  .qr-code-container {
+    padding: 20px;
+    margin: 15px;
+  }
+  
+  .qr-modal-footer {
+    padding: 15px 20px 30px 20px;
+  }
+  
+  .qr-instructions {
+    font-size: 13px;
+  }
+  
+  /* Modal mobile optimizations */
+  .modal-content {
+    margin: 10px;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+  }
+  
+  .modal-title {
+    font-size: 20px;
+    padding: 16px 20px 12px 20px;
+  }
+  
+  .modal-description {
+    padding: 0 20px 16px 20px;
+  }
+  
+  .modal-text {
+    font-size: 14px;
+  }
+  
+  .modal-funfact {
+    margin: 0 20px 24px 20px;
+    padding: 16px;
+  }
+  
+  .funfact-title {
+    font-size: 16px;
+  }
+  
+  .funfact-text {
+    font-size: 14px;
+  }
+  
+  /* Enhanced mobile scrolling */
+  .form-page {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .form-container {
+    overflow-x: hidden;
+  }
+  
+  /* Better mobile form spacing */
+  .journey-form {
+    gap: 24px;
+  }
+  
+  .form-group {
+    gap: 12px;
   }
 }
 
 /* Landscape Orientation for Mobile */
 @media (orientation: landscape) and (max-height: 500px) {
   .form-page {
-    padding-top: 60px;
+    padding-top: 100px;
   }
   
   .form-container, .results-container {
-    padding: 20px 16px;
+    padding: 40px 16px 20px 16px;
   }
   
   .form-title, .results-title {
@@ -990,7 +1852,21 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   }
   
   .progress-bar {
-    padding: 8px 16px;
+    padding: 12px 16px;
+  }
+  
+  .progress-step {
+    padding: 6px 10px;
+    min-width: 70px;
+    font-size: 11px;
+  }
+  
+  .back-to-home-container {
+    top: 100px;
+  }
+  
+  .form-page .lang-selector {
+    top: 100px;
   }
 }
 
@@ -998,7 +1874,7 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 .journey-guide {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   min-height: 100vh;
-  padding-top: 80px;
+  padding-top: 140px;
 }
 
 .journey-guide:before {
@@ -1453,35 +2329,192 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 }
 
 .cta-btn {
-  background: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
   color: #8b4513;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
-  padding: 16px 32px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 18px 36px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   display: inline-block;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  min-width: 220px;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.cta-btn:hover::before {
+  left: 100%;
 }
 
 .cta-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateY(-3px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.95));
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-btn:active {
+  transform: translateY(-2px) scale(1.01);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
 .cta-btn.secondary {
-  background: transparent;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(216, 169, 40, 0.8));
   color: white;
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.3);
+}
+
+.cta-btn.secondary::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .cta-btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 1), rgba(216, 169, 40, 0.95));
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 16px 40px rgba(139, 69, 19, 0.4);
+}
+
+/* QR Code Modal Styles */
+.qr-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(8px);
+  animation: qrModalFadeIn 0.3s ease-out;
+}
+
+.qr-modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  animation: qrModalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid rgba(139, 69, 19, 0.1);
+}
+
+.qr-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(139, 69, 19, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #8b4513;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10001;
+}
+
+.qr-modal-close:hover {
+  background: rgba(139, 69, 19, 0.2);
+  transform: scale(1.1);
+}
+
+.qr-modal-header {
+  padding: 40px 30px 20px 30px;
+  text-align: center;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.qr-modal-header h3 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qr-modal-header p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.qr-code-container {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  margin: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.qr-code-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.qr-modal-footer {
+  padding: 20px 30px 40px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.qr-instructions {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+@keyframes qrModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes qrModalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-30px) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0deg);
+  }
 }
 
 /* Responsive Design for Journey Guide */
@@ -1548,11 +2581,20 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
 
 @media (max-width: 600px) {
   .journey-guide {
-    padding-top: 100px;
+    padding-top: 120px;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
   
   .journey-container {
     padding: 20px 12px;
+    overflow-x: hidden;
+  }
+  
+  /* Back to home button positioning for journey guide */
+  .back-to-home-container {
+    top: 100px;
+    left: 12px;
   }
   
   .journey-title {
@@ -1565,6 +2607,7 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   
   .journey-overview, .itinerary-section, .travel-tips-section, .budget-section {
     padding: 24px 16px;
+    overflow-x: hidden;
   }
   
   .journey-overview h2, .itinerary-section h2, .travel-tips-section h2, .budget-section h2 {
@@ -1578,11 +2621,16 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   
   .day-selector {
     gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
   }
   
   .day-btn {
     padding: 8px 16px;
     font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   
   .day-header h3 {
@@ -1591,10 +2639,19 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   
   .day-meta {
     gap: 12px;
+    flex-wrap: wrap;
   }
   
   .activity-item {
     padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .activity-time {
+    align-self: flex-start;
+    min-width: auto;
+    width: fit-content;
   }
   
   .activity-content h4 {
@@ -1624,6 +2681,21 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   .cta-btn {
     padding: 12px 24px;
     font-size: 16px;
+    min-height: 44px;
+  }
+  
+  /* Enhanced mobile scrolling for journey guide */
+  .journey-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Better mobile spacing */
+  .journey-header {
+    margin-bottom: 40px;
+  }
+  
+  .journey-overview, .itinerary-section, .travel-tips-section, .budget-section {
+    margin-bottom: 40px;
   }
 }
 
@@ -1634,6 +2706,18 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   
   .journey-title {
     font-size: 24px;
+  }
+  
+  /* Back to home button positioning for smallest screens */
+  .back-to-home-container {
+    top: 80px;
+    left: 8px;
+  }
+  
+  .back-to-home-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
   }
   
   .journey-overview, .itinerary-section, .travel-tips-section, .budget-section {
@@ -1655,5 +2739,72 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   
   .journey-cta h2 {
     font-size: 24px;
+  }
+  
+  /* Final mobile optimizations for smallest screens */
+  .page.home {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 10px 0;
+  }
+  
+  .page.home .hero {
+    padding: 20px 8px;
+  }
+  
+  .page.home .grid {
+    gap: 6px;
+    margin-top: 20px;
+  }
+  
+  .page.home .card {
+    min-height: 22px;
+    aspect-ratio: 2.4;
+    margin: 0 1px;
+  }
+  
+  .page.home .card__body {
+    padding: 3px 10px 1px 10px;
+  }
+  
+  .page.home .card__title {
+    font-size: 18px;
+    padding: 3px 1px;
+  }
+  
+  .page.home .card__desc {
+    font-size: 14px;
+  }
+  
+  /* Ensure all containers are properly sized */
+  .container {
+    padding: 4px;
+    overflow-x: hidden;
+  }
+  
+  /* Better mobile form experience */
+  .form-container {
+    margin: 4px;
+    padding: 16px 12px;
+  }
+  
+  .form-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Optimize modal for smallest screens */
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-start;
+    padding-top: 5px;
+  }
+  
+  .modal-content {
+    max-width: calc(100vw - 2px);
+    max-height: calc(100vh - 10px);
+    margin: 0;
+    border-radius: 4px;
   }
 }

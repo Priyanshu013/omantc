@@ -5,7 +5,7 @@ const resources = {
   en: {
     translation: {
       appTitle: 'Welcome to Oman',
-      appSubtitle: "I'm your AI Tourism & Culture Guide. Just tell me your preferences, and I will define a curated journey for you!",
+      appSubtitle: "I'm JourneyGenie, your AI Tourism & Culture Guide.<br/>Just tell me your preferences, and I will define a curated journey for you!",
       nav: {
         home: 'Home',
         heritage: 'Heritage of Oman',
@@ -41,11 +41,20 @@ const resources = {
         traditionInterests: 'What interests you the most about Oman\'s tradition? (Pick 4 options)',
         wellnessInterest: 'Would you like to know about Omani Wellness?',
         cultureInterests: 'What interests you the most about Oman\'s culture? (Pick 3 options)',
+        daysToExplore: 'How many days do you have to explore Oman?',
         askAI: 'Start the journey',
         yes: 'Yes',
         no: 'No',
         loading: 'AI is curating the best results for you...',
         results: 'Your Curated Journey',
+        validation: {
+          nameRequired: 'Please enter your name',
+          placesRequired: 'Please select at least one place you would like to visit',
+          traditionRequired: 'Please select exactly 4 tradition interests',
+          wellnessRequired: 'Please select your wellness interest preference',
+          cultureRequired: 'Please select exactly 3 culture interests',
+          daysRequired: 'Please select your preferred trip duration'
+        },
         placesOptions: {
           historicalSites: 'Historical Sites',
           touristAttractions: 'Tourist Attractions',
@@ -75,6 +84,13 @@ const resources = {
           attire: 'Omani Attire',
           muscatFestival: 'Muscat Festival',
           traditionalSports: 'Traditional Sports'
+        },
+        daysOptions: {
+          short: '3-4 Days (Weekend Getaway)',
+          medium: '5-6 Days (Extended Weekend)',
+          long: '7-8 Days (Full Week)',
+          comprehensive: '10-12 Days (Comprehensive Tour)',
+          deep: '14+ Days (Deep Exploration)'
         }
       },
       progress: {
@@ -87,7 +103,7 @@ const resources = {
   ar: {
     translation: {
       appTitle: 'مرحباً بكم في عُمان',
-      appSubtitle: 'أنا دليلك الذكي للسياحة والثقافة. فقط أخبرني باهتماماتك وسأقوم بتصميم رحلة مخصصة لك!',
+      appSubtitle: 'أنا JourneyGenie، دليلك الذكي للسياحة والثقافة.<br/>فقط أخبرني باهتماماتك وسأقوم بتصميم رحلة مخصصة لك!',
       nav: {
         home: 'الرئيسية',
         heritage: 'تراث عُمان',
@@ -123,11 +139,20 @@ const resources = {
         traditionInterests: 'ما الذي يثير اهتمامك أكثر في تقاليد عُمان؟ (اختر 4 خيارات)',
         wellnessInterest: 'هل تود معرفة عن العافية العُمانية؟',
         cultureInterests: 'ما الذي يثير اهتمامك أكثر في ثقافة عُمان؟ (اختر 3 خيارات)',
+        daysToExplore: 'كم يوماً لديك لاستكشاف عُمان؟',
         askAI: 'ابدأ الرحلة',
         yes: 'نعم',
         no: 'لا',
         loading: 'الذكاء الاصطناعي يعد أفضل النتائج لك...',
         results: 'رحلتك المخصصة',
+        validation: {
+          nameRequired: 'يرجى إدخال اسمك',
+          placesRequired: 'يرجى اختيار مكان واحد على الأقل تود زيارته',
+          traditionRequired: 'يرجى اختيار 4 اهتمامات تقليدية بالضبط',
+          wellnessRequired: 'يرجى اختيار تفضيلك للعافية',
+          cultureRequired: 'يرجى اختيار 3 اهتمامات ثقافية بالضبط',
+          daysRequired: 'يرجى اختيار مدة الرحلة المفضلة لديك'
+        },
         placesOptions: {
           historicalSites: 'المواقع التاريخية',
           touristAttractions: 'المعالم السياحية',
@@ -157,6 +182,13 @@ const resources = {
           attire: 'الزي العُماني',
           muscatFestival: 'مهرجان مسقط',
           traditionalSports: 'الرياضات التقليدية'
+        },
+        daysOptions: {
+          short: '3-4 أيام (رحلة نهاية الأسبوع)',
+          medium: '5-6 أيام (عطلة نهاية أسبوع ممتدة)',
+          long: '7-8 أيام (أسبوع كامل)',
+          comprehensive: '10-12 يوم (جولة شاملة)',
+          deep: '14+ يوم (استكشاف عميق)'
         }
       },
       progress: {
