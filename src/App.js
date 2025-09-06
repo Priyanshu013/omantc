@@ -808,12 +808,15 @@ function JourneyGuide({ formData: propFormData }) {
   const [qrCodeDataURL, setQrCodeDataURL] = React.useState('');
   const [isMobile, setIsMobile] = React.useState(false);
   const [formData, setFormData] = React.useState(propFormData);
+  const [isLoadingFromURL, setIsLoadingFromURL] = React.useState(false);
 
   // Extract form data from URL parameters if available
   React.useEffect(() => {
     // For HashRouter, we need to parse the hash part of the URL
     const hash = window.location.hash;
     console.log('Current hash:', hash);
+    
+    // More robust parsing for mobile browsers
     const hashParts = hash.split('?');
     
     if (hashParts.length > 1) {
@@ -822,14 +825,28 @@ function JourneyGuide({ formData: propFormData }) {
       const dataParam = urlParams.get('data');
       
       console.log('Data param found:', !!dataParam);
+      console.log('Mobile parameter:', urlParams.get('mobile'));
       
       if (dataParam && !propFormData) {
+        setIsLoadingFromURL(true);
         try {
           const decodedData = JSON.parse(decodeURIComponent(dataParam));
           console.log('Successfully parsed form data:', decodedData);
           setFormData(decodedData);
+          
+          // Add a small delay for mobile browsers to ensure proper loading
+          if (urlParams.get('mobile') === 'true') {
+            setTimeout(() => {
+              // Force a re-render for mobile browsers
+              window.scrollTo(0, 0);
+              setIsLoadingFromURL(false);
+            }, 500);
+          } else {
+            setIsLoadingFromURL(false);
+          }
         } catch (error) {
           console.error('Error parsing form data from URL:', error);
+          setIsLoadingFromURL(false);
           // If there's an error, redirect to home
           navigate('/');
         }
@@ -863,7 +880,16 @@ function JourneyGuide({ formData: propFormData }) {
       // Use the GitHub Pages URL with the current hash (which includes results data)
       const githubPagesURL = 'https://Priyanshu013.github.io/omantc/';
       const currentHash = window.location.hash; // This will be #/results?data=...
-      const fullURL = githubPagesURL + currentHash;
+      
+      // Ensure the URL is properly formatted for mobile browsers
+      let fullURL = githubPagesURL + currentHash;
+      
+      // Add a fallback parameter to help with mobile loading
+      if (fullURL.includes('?')) {
+        fullURL += '&mobile=true';
+      } else {
+        fullURL += '?mobile=true';
+      }
       
       console.log('Generating QR code for URL:', fullURL);
       
@@ -873,7 +899,8 @@ function JourneyGuide({ formData: propFormData }) {
         color: {
           dark: '#8b4513',
           light: '#FFFFFF'
-        }
+        },
+        errorCorrectionLevel: 'M' // Medium error correction for better mobile scanning
       });
       setQrCodeDataURL(qrCodeURL);
       setShowQRCode(true);
@@ -1631,6 +1658,26 @@ function JourneyGuide({ formData: propFormData }) {
       ]
     }
   ];
+
+  // Show loading state when loading from URL
+  if (isLoadingFromURL) {
+    return (
+      <div className="page journey-guide" dir={isArabic ? 'rtl' : 'ltr'}>
+        <ProgressBar currentStep={3} totalSteps={3} />
+        <div className="loading-container">
+          <div className="loading-animation">
+            <div className="loading-spinner"></div>
+            <h2 className="loading-text">Loading your journey guide...</h2>
+            <div className="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page journey-guide" dir={isArabic ? 'rtl' : 'ltr'}>
