@@ -808,7 +808,7 @@ function JourneyGuide({ formData: propFormData }) {
   const [qrCodeDataURL, setQrCodeDataURL] = React.useState('');
   const [isMobile, setIsMobile] = React.useState(false);
   const [formData, setFormData] = React.useState(propFormData);
-  const [isLoadingFromURL, setIsLoadingFromURL] = React.useState(false);
+  const [isLoadingFromURL, setIsLoadingFromURL] = React.useState(true); // Start as true to prevent immediate redirect
 
   // Extract form data from URL parameters if available
   React.useEffect(() => {
@@ -828,7 +828,6 @@ function JourneyGuide({ formData: propFormData }) {
       console.log('Mobile parameter:', urlParams.get('mobile'));
       
       if (dataParam && !propFormData) {
-        setIsLoadingFromURL(true);
         try {
           const decodedData = JSON.parse(decodeURIComponent(dataParam));
           console.log('Successfully parsed form data:', decodedData);
@@ -850,19 +849,26 @@ function JourneyGuide({ formData: propFormData }) {
           // If there's an error, redirect to home
           navigate('/');
         }
+      } else {
+        // No data param found, stop loading
+        setIsLoadingFromURL(false);
       }
+    } else {
+      // No query string found, stop loading
+      setIsLoadingFromURL(false);
     }
   }, [propFormData, navigate]);
 
   // If no form data is available, redirect to home
   React.useEffect(() => {
-    if (!formData || !formData.name) {
+    // Only check for redirect after we've finished loading from URL
+    if (!isLoadingFromURL && (!formData || !formData.name)) {
       // Only redirect if we're not in the middle of loading data from URL
       if (!window.location.hash.includes('data=')) {
         navigate('/');
       }
     }
-  }, [formData, navigate]);
+  }, [formData, navigate, isLoadingFromURL]);
 
   // Check if device is mobile
   React.useEffect(() => {
@@ -948,6 +954,10 @@ function JourneyGuide({ formData: propFormData }) {
   
   // Get itinerary based on selected days
   const getItinerary = () => {
+    if (!formData || !formData.daysToExplore) {
+      return getFullItinerary(); // Default fallback
+    }
+    
     const selectedDays = formData.daysToExplore;
     
     if (selectedDays.includes('3-4 Days')) {
@@ -1570,11 +1580,14 @@ function JourneyGuide({ formData: propFormData }) {
     }
   ];
   
-  // Get the appropriate itinerary
-  const itinerary = getItinerary();
+  // Get the appropriate itinerary (will be called in render)
   
   // Get regions covered based on selected days
   const getRegionsCovered = () => {
+    if (!formData || !formData.daysToExplore) {
+      return "Muscat, Nizwa, Wahiba Sands, Sur, Salalah"; // Default fallback
+    }
+    
     const selectedDays = formData.daysToExplore;
     
     if (selectedDays.includes('3-4 Days')) {
@@ -1594,6 +1607,10 @@ function JourneyGuide({ formData: propFormData }) {
   
   // Get budget estimate based on selected days
   const getBudgetEstimate = () => {
+    if (!formData || !formData.daysToExplore) {
+      return "Luxury: $2,500-4,000 | Mid-range: $1,500-2,500 | Budget: $800-1,500"; // Default fallback
+    }
+    
     const selectedDays = formData.daysToExplore;
     
     if (selectedDays.includes('3-4 Days')) {
@@ -1679,6 +1696,28 @@ function JourneyGuide({ formData: propFormData }) {
     );
   }
 
+  // If no form data and not loading, show error or redirect
+  if (!formData || !formData.name) {
+    return (
+      <div className="page journey-guide" dir={isArabic ? 'rtl' : 'ltr'}>
+        <ProgressBar currentStep={3} totalSteps={3} />
+        <div className="loading-container">
+          <div className="loading-animation">
+            <h2 className="loading-text">No journey data found</h2>
+            <p>Redirecting to home page...</p>
+            <button 
+              className="cta-btn secondary" 
+              onClick={() => navigate('/')}
+              style={{ marginTop: '20px' }}
+            >
+              Go to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page journey-guide" dir={isArabic ? 'rtl' : 'ltr'}>
       <ProgressBar currentStep={3} totalSteps={3} />
@@ -1695,7 +1734,7 @@ function JourneyGuide({ formData: propFormData }) {
       <div className="journey-container" id="journey-content">
         <div className="journey-header">
           <h1 className="journey-title">Your Complete Oman Journey Guide</h1>
-          <p className="journey-subtitle">Hello {formData.name}! Here's your personalized {formData.daysToExplore.toLowerCase()} exploration of Oman</p>
+          <p className="journey-subtitle">Hello {formData?.name || 'Traveler'}! Here's your personalized {(formData?.daysToExplore || '7-8 Days').toLowerCase()} exploration of Oman</p>
         </div>
 
         {/* Journey Overview */}
@@ -1704,7 +1743,7 @@ function JourneyGuide({ formData: propFormData }) {
           <div className="overview-grid">
             <div className="overview-card">
               <h3>Duration</h3>
-              <p>{formData.daysToExplore}</p>
+              <p>{formData?.daysToExplore || '7-8 Days'}</p>
             </div>
             <div className="overview-card">
               <h3>Regions Covered</h3>
@@ -1725,7 +1764,7 @@ function JourneyGuide({ formData: propFormData }) {
         <div className="itinerary-section">
           <h2>📅 Day-by-Day Itinerary</h2>
           <div className="day-selector">
-            {itinerary.map((day) => (
+            {getItinerary().map((day) => (
               <button
                 key={day.day}
                 className={`day-btn ${activeDay === day.day ? 'active' : ''}`}
@@ -1736,7 +1775,7 @@ function JourneyGuide({ formData: propFormData }) {
             ))}
           </div>
 
-          {itinerary.map((day) => (
+          {getItinerary().map((day) => (
             activeDay === day.day && (
               <div key={day.day} className="day-details">
                 <div className="day-header">
