@@ -808,6 +808,7 @@ function JourneyGuide({ formData: propFormData }) {
   const [isMobile, setIsMobile] = React.useState(false);
   const [formData, setFormData] = React.useState(propFormData);
   const [isLoadingFromURL, setIsLoadingFromURL] = React.useState(true); // Start as true to prevent immediate redirect
+  const [isGeneratingPDF, setIsGeneratingPDF] = React.useState(false);
 
   // Extract form data from URL parameters if available
   React.useEffect(() => {
@@ -916,38 +917,101 @@ function JourneyGuide({ formData: propFormData }) {
 
   // Download as PDF
   const downloadPDF = async () => {
+    setIsGeneratingPDF(true);
+    
     try {
       const element = document.getElementById('journey-content');
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff'
+      
+      // Add PDF-specific styling temporarily
+      const originalOverflow = element.style.overflow;
+      const originalBackground = element.style.background;
+      element.style.overflow = 'visible';
+      element.style.background = '#ffffff';
+      
+      // Temporarily hide elements that don't work well in PDF
+      const elementsToHide = element.querySelectorAll('.day-selector, .cta-buttons, .back-to-home-container, .lang-selector');
+      elementsToHide.forEach(el => {
+        el.style.display = 'none';
       });
       
-      const imgData = canvas.toDataURL('image/png');
+      // Force all day details to be visible for PDF
+      const dayDetails = element.querySelectorAll('.day-details');
+      dayDetails.forEach(detail => {
+        detail.style.display = 'block';
+      });
+      
+      const canvas = await html2canvas(element, {
+        scale: 3, // Increased scale for better quality
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
+        // Better font rendering
+        foreignObjectRendering: true,
+        // Remove shadows and effects that don't render well
+        ignoreElements: (element) => {
+          return element.classList.contains('day-selector') || 
+                 element.classList.contains('cta-buttons') ||
+                 element.classList.contains('back-to-home-container') ||
+                 element.classList.contains('lang-selector');
+        }
+      });
+      
+      // Restore original styling
+      element.style.overflow = originalOverflow;
+      element.style.background = originalBackground;
+      elementsToHide.forEach(el => {
+        el.style.display = '';
+      });
+      
+      const imgData = canvas.toDataURL('image/png', 1.0); // Maximum quality
       const pdf = new jsPDF('p', 'mm', 'a4');
       
-      const imgWidth = 210;
-      const pageHeight = 295;
+      // Better page dimensions and margins
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 10;
+      const contentWidth = pageWidth - (margin * 2);
+      const contentHeight = pageHeight - (margin * 2);
+      
+      const imgWidth = contentWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      let position = margin;
       let heightLeft = imgHeight;
       
-      let position = 0;
+      // Add first page
+      pdf.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+      heightLeft -= contentHeight;
       
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      
+      // Add additional pages if needed
       while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        position = margin - (imgHeight - heightLeft);
+        pdf.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+        heightLeft -= contentHeight;
       }
+      
+      // Add metadata
+      pdf.setProperties({
+        title: `Oman Journey Guide - ${formData.name || 'Your Journey'}`,
+        subject: 'Personalized Oman Travel Guide',
+        author: 'Oman Tourism Companion',
+        creator: 'Oman Tourism Companion App'
+      });
       
       pdf.save(`Oman-Journey-Guide-${formData.name || 'Your'}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
+      alert('There was an error generating the PDF. Please try again.');
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
   
@@ -1880,8 +1944,12 @@ function JourneyGuide({ formData: propFormData }) {
           <p>This journey will take you through the heart of Omani culture, heritage, and natural beauty. Each day is carefully planned to give you the most authentic and memorable experience.</p>
           <div className="cta-buttons">
             {isMobile ? (
-              <button className="cta-btn secondary" onClick={downloadPDF}>
-                Download as PDF
+              <button 
+                className="cta-btn secondary" 
+                onClick={downloadPDF}
+                disabled={isGeneratingPDF}
+              >
+                {isGeneratingPDF ? 'Generating PDF...' : 'Download as PDF'}
               </button>
             ) : (
               <button className="cta-btn secondary" onClick={generateQRCode}>

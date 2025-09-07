@@ -2422,6 +2422,18 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
   box-shadow: 0 16px 40px rgba(139, 69, 19, 0.4);
 }
 
+.cta-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.3) !important;
+}
+
+.cta-btn:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.3) !important;
+}
+
 /* QR Code Modal Styles */
 .qr-modal-overlay {
   position: fixed;
@@ -2842,4 +2854,229 @@ code{font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monos
     margin: 0;
     border-radius: 4px;
   }
+}
+
+/* PDF Generation Optimizations */
+/* These styles are specifically designed to improve PDF output quality */
+
+/* Ensure better font rendering for PDF */
+.journey-container {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* PDF-specific text improvements */
+.journey-title,
+.journey-subtitle,
+.day-header h3,
+.activity-content h4,
+.overview-card h3,
+.tip-category h3,
+.budget-item h4,
+.info-card h4 {
+  font-weight: 700;
+  color: #2c3e50 !important;
+  text-shadow: none !important;
+  -webkit-text-stroke: 0.5px transparent;
+}
+
+/* Ensure proper contrast for PDF */
+.journey-container * {
+  color: #2c3e50 !important;
+}
+
+.journey-container .journey-subtitle,
+.journey-container .activity-content p,
+.journey-container .overview-card p,
+.journey-container .tip-category li,
+.journey-container .budget-item p,
+.journey-container .info-card p {
+  color: #444 !important;
+}
+
+/* Remove problematic effects for PDF */
+.journey-container .journey-overview,
+.journey-container .itinerary-section,
+.journey-container .travel-tips-section,
+.journey-container .budget-section {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+}
+
+/* Improve card readability in PDF */
+.journey-container .overview-card,
+.journey-container .tip-category,
+.journey-container .budget-item,
+.journey-container .info-card,
+.journey-container .activity-item {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Ensure day details are properly formatted for PDF */
+.journey-container .day-details {
+  page-break-inside: avoid;
+  margin-bottom: 30px;
+}
+
+.journey-container .activity-item {
+  page-break-inside: avoid;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+}
+
+/* Improve activity timeline for PDF */
+.journey-container .activity-time {
+  background: #8b4513 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+/* Better spacing for PDF */
+.journey-container .day-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #8b4513;
+}
+
+.journey-container .day-highlights {
+  background: #f8f9fa !important;
+  border-left: 4px solid #8b4513 !important;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+/* Ensure proper text sizing for PDF */
+.journey-container .journey-title {
+  font-size: 32px !important;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.journey-container .journey-subtitle {
+  font-size: 18px !important;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.journey-container .day-header h3 {
+  font-size: 24px !important;
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+
+.journey-container .activity-content h4 {
+  font-size: 18px !important;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.journey-container .activity-content p {
+  font-size: 15px !important;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Improve tip styling for PDF */
+.journey-container .activity-tip {
+  background: #f0f8ff !important;
+  border-left: 3px solid #8b4513 !important;
+  padding: 12px 15px;
+  margin: 15px 0;
+  font-size: 14px !important;
+  color: #8b4513 !important;
+}
+
+/* Better grid layouts for PDF */
+.journey-container .overview-grid,
+.journey-container .tips-grid,
+.journey-container .budget-grid {
+  display: block;
+}
+
+.journey-container .overview-card,
+.journey-container .tip-category,
+.journey-container .budget-item {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+}
+
+/* Ensure proper page breaks */
+.journey-container .journey-overview,
+.journey-container .itinerary-section,
+.journey-container .travel-tips-section,
+.journey-container .budget-section {
+  page-break-inside: avoid;
+  margin-bottom: 40px;
+}
+
+/* Remove interactive elements for PDF */
+.journey-container .day-selector,
+.journey-container .cta-buttons,
+.journey-container .back-to-home-container,
+.journey-container .lang-selector {
+  display: none !important;
+}
+
+/* Ensure all day details are visible in PDF */
+.journey-container .day-details {
+  display: block !important;
+}
+
+/* Better section headers for PDF */
+.journey-container h2 {
+  font-size: 28px !important;
+  font-weight: 800;
+  color: #2c3e50 !important;
+  margin: 30px 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #8b4513;
+}
+
+/* Improve list styling for PDF */
+.journey-container ul {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.journey-container li {
+  margin: 8px 0;
+  line-height: 1.5;
+  font-size: 15px !important;
+  color: #444 !important;
+}
+
+/* Better meta information display */
+.journey-container .day-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.journey-container .location,
+.journey-container .duration {
+  background: #f0f8ff !important;
+  color: #8b4513 !important;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #8b4513;
 }
