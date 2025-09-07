@@ -615,7 +615,7 @@ function JourneyForm() {
       const formDataString = encodeURIComponent(JSON.stringify(formData));
       const resultsURL = `#/results?data=${formDataString}`;
       window.history.replaceState(null, '', resultsURL);
-    }, 3000);
+    }, 5500);
   };
   
   if (isLoading) {
