@@ -645,14 +645,13 @@ function JourneyForm() {
     <div className="page form-page" dir={isArabic ? 'rtl' : 'ltr'}>
       <ProgressBar currentStep={1} totalSteps={3} />
       
-      {/* Form Header with Language Selector and Home Button */}
+      {/* Form Header with Home Button */}
       <div className="form-header">
         <div className="back-to-home-container">
           <button className="back-to-home-btn" onClick={() => navigate('/')}>
             <HomeIcon />
           </button>
         </div>
-        <LanguageSelector />
       </div>
       
       <div className="form-container">
